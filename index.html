@@ -3,20 +3,68 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>NovaPrompt</title>
-<style>
-  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:#0b1340;color:#fff;display:flex;min-height:100vh;align-items:center;justify-content:center;text-align:center;padding:24px}
-  main{max-width:520px}
-  h1{font-size:2.2rem;margin:0 0 8px}
-  p{color:#c8cfee;line-height:1.5}
-  a.btn{display:inline-block;margin-top:16px;padding:12px 22px;border-radius:10px;background:#e02f44;color:#fff;text-decoration:none;font-weight:600}
-</style>
+<title>NovaPrompt – Turn Your Imagination Into Reality</title>
+<meta name="description" content="NovaPrompt: ready-to-use AI image and video prompts, organised by category. Sign up free and browse, search and copy prompts.">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-<main>
-  <h1>NovaPrompt</h1>
-  <p>Ready-to-use AI image and video prompts, organised by category. Save your favourites.</p>
-  <a class="btn" href="https://play.google.com/store/apps/details?id=com.pushugujjar.novapromptapp">Get it on Google Play</a>
-</main>
+<div class="wrap">
+  <header class="top">
+    <div class="logo">Nova<b>Prompt</b></div>
+    <div class="row">
+      <a class="btn outline small" id="topPlay" href="#">Get the app</a>
+      <div id="userBox" class="row hidden">
+        <img id="avatar" class="avatar" alt="" referrerpolicy="no-referrer">
+        <button class="btn outline small" id="signOut">Sign out</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Signed out -->
+  <main id="signedOut">
+    <section class="hero">
+      <img class="icon" src="icon.png" alt="NovaPrompt app icon" width="96" height="96">
+      <div class="logo">Nova<b>Prompt</b></div>
+      <p class="tag">Turn Your Imagination Into Reality</p>
+      <p class="tag">Ready-to-use AI image and video prompts, organised by category.</p>
+      <div class="signup">
+        <div id="signupPart">
+          <h2>Create your account with Gmail</h2>
+          <p>Sign up free to browse, search and copy prompts.</p>
+          <button class="btn google block" id="signIn">Continue with Google</button>
+          <div class="err hidden" id="err"></div>
+          <div class="or">or</div>
+        </div>
+        <h2 id="getAppTitle" class="hidden">Get the app</h2>
+        <p id="getAppText" class="hidden">Browse ready-to-use AI image and video prompts on your phone.</p>
+        <a class="btn primary block" id="heroPlay" href="#" style="margin-top:10px">Download the Android app</a>
+      </div>
+      <span class="badge hidden" id="demoBadge">Preview mode &middot; sample prompts</span>
+    </section>
+  </main>
+
+  <!-- Signed in -->
+  <main id="signedIn" class="hidden">
+    <div class="tools">
+      <input class="search" id="q" type="search" placeholder="Search prompts, tags, categories">
+      <div class="chips">
+        <button class="chip on" data-type="">All</button>
+        <button class="chip" data-type="image">Image</button>
+        <button class="chip" data-type="video">Video</button>
+      </div>
+    </div>
+    <div class="grid" id="grid"></div>
+    <div class="empty hidden" id="empty">No prompts yet.</div>
+    <div class="banner">
+      <div><h3>Get the NovaPrompt app</h3><p>Save your favourites and carry every prompt in your pocket.</p></div>
+      <a class="btn primary" id="bannerPlay" href="#">Download on Google Play</a>
+    </div>
+  </main>
+
+  <footer>&copy; NovaPrompt &middot; by Pixel Glitch Games</footer>
+</div>
+
+<div class="modal hidden" id="modal"><div class="sheet" id="sheet"></div></div>
+<script type="module" src="app.js"></script>
 </body>
 </html>
