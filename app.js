@@ -19,6 +19,7 @@ const SAMPLES = [
 
 for (const id of ['topPlay', 'heroPlay', 'bannerPlay']) $(id).href = PLAY_URL;
 
+let loadNote = '';
 function parsePrompt(id, d) {
   if (!d) return null;
   const s = (v) => (typeof v === 'string' && v.trim() ? v : null);
@@ -63,6 +64,7 @@ function render() {
     (!q || [p.title, p.category, ...p.tags].some((x) => x.toLowerCase().includes(q))));
   const g = $('grid'); g.replaceChildren();
   $('empty').classList.toggle('hidden', list.length > 0);
+  $('empty').textContent = 'No prompts yet.' + (!allPrompts.length && loadNote ? ' (' + loadNote + ')' : '');
   for (const p of list) {
     const c = el('div', 'card');
     const pv = el('div', 'pv'); if (p.previewUrl) pv.style.backgroundImage = `url("${p.previewUrl}")`;
@@ -119,6 +121,7 @@ async function initFirebase() {
       F.orderBy('createdAt', 'desc'), F.limit(50));
     const snap = await F.getDocs(q);
     allPrompts = snap.docs.map((d) => parsePrompt(d.id, d.data())).filter(Boolean);
+    loadNote = 'Server returned ' + snap.size + ' published prompt(s), ' + allPrompts.length + ' usable.';
   }
 
   $('signIn').onclick = async () => {
@@ -130,7 +133,7 @@ async function initFirebase() {
   A.onAuthStateChanged(fb.auth, async (u) => {
     if (!u) { showSignedOut(); return; }
     await ensureUserDoc(u);
-    try { await loadPrompts(); } catch (e) { console.warn('prompts', e.code || e); allPrompts = []; }
+    try { await loadPrompts(); } catch (e) { console.warn('prompts', e.code || e); allPrompts = []; loadNote = 'Could not load prompts: ' + (e.code || e.message || e); }
     showSignedIn(u);
   });
 }
