@@ -26,9 +26,14 @@ function parsePrompt(id, d) {
   const title = s(d.title), promptText = s(d.promptText), category = s(d.category);
   const type = d.type === 'image' || d.type === 'video' ? d.type : null;
   if (!title || !promptText || !category || !type) return null;
+  // A photo picked from the admin's gallery is stored inside the prompt (Firestore bytes); otherwise use the link.
+  let previewUrl = typeof d.previewUrl === 'string' && d.previewUrl.startsWith('https://') ? d.previewUrl : '';
+  try {
+    if (d.previewData && typeof d.previewData.toBase64 === 'function') previewUrl = 'data:image/jpeg;base64,' + d.previewData.toBase64();
+  } catch (e) { /* fall back to the link */ }
   return { id, title, promptText, type, category,
     tags: Array.isArray(d.tags) ? d.tags.filter((t) => typeof t === 'string') : [],
-    previewUrl: typeof d.previewUrl === 'string' && d.previewUrl.startsWith('https://') ? d.previewUrl : '' };
+    previewUrl };
 }
 
 function el(tag, cls, text) {
